@@ -9,12 +9,14 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
-    "build": "webpack -d --watch"
+    "build": "webpack -d --watch",
+    "generate-images": "node util/generator.js"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.5",
     "express": "^4.16.4",
