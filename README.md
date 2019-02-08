@@ -4,10 +4,9 @@
 
 ## Related Projects
 
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
-  - https://github.com/teamName/repo
+  - https://github.com/xillow-talk/brian-component-neighborhood
+  - https://github.com/xillow-talk/john-sprague-component-home-value
+  - https://github.com/xillow-talk/steve-component-agent-contact
 
 ## Table of Contents
 

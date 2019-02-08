@@ -24,3 +24,11 @@ coverage
 build/
 dist/
 
+# API keys
+aws-config.js
+
+# Randomly generated images
+images/
+
+# Config files
+config.js
