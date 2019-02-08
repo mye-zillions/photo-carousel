@@ -10,7 +10,8 @@
   "scripts": {
     "start": "nodemon server/index.js",
     "build": "webpack -d --watch",
-    "generate-images": "node util/generator.js"
+    "generate-images": "node util/generator.js",
+    "seed": "node util/seeder.js"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
@@ -20,10 +21,13 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.5",
     "express": "^4.16.4",
+    "faker": "^4.1.0",
     "mongoose": "^5.4.10",
     "morgan": "^1.9.1",
+    "mysql2": "^1.6.4",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "sequelize": "^4.42.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3"
   },
