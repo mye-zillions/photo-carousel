@@ -7,7 +7,7 @@ class PhotoCarousel extends React.Component {
 
     this.state = {
       modalView: false,
-      links: [],
+      thumbnails: [],
     };
   }
 
@@ -17,14 +17,14 @@ class PhotoCarousel extends React.Component {
       .then(links => {
         return links.map(({url}) => url)
       })
-      .then(links => this.setState( {links} ));
+      .then(thumbnails => this.setState({thumbnails}));
   }
 
   render() {
     return (
-      <div className="carousel">
-        {this.state.links.map(link => (
-          <PhotoEntry link={link}/>
+      <div className="carousel-container">
+        {this.state.thumbnails.map((link, id) => (
+          <PhotoEntry link={link} id={id} />
         ))}
       </div>
     )
