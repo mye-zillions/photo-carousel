@@ -1,0 +1,10 @@
+.carousel {
+  display: flex;
+  overflow: scroll;
+  width: 100%;
+}
+
+.photo {
+  flex-direction: column;
+  padding: 5px;
+}
