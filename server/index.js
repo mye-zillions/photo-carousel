@@ -1,4 +1,3 @@
-/* eslint linebreak-style: ["error", "windows"] */
 const morgan = require('morgan');
 const express = require('express');
 const db = require('./database');
