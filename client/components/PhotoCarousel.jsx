@@ -1,5 +1,5 @@
 import React from 'react';
-import PhotoEntry from './PhotoEntry.jsx';
+import PhotoTile from './PhotoTile.jsx';
 
 class PhotoCarousel extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class PhotoCarousel extends React.Component {
     return (
       <div className="carousel-container">
         {this.state.thumbnails.map((link, id) => (
-          <PhotoEntry link={link} id={id} />
+          <PhotoTile link={link} id={id} />
         ))}
       </div>
     )

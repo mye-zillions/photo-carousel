@@ -1,9 +1,9 @@
 import React from 'react';
 
-const PhotoEntry = props => (
+const PhotoTile = props => (
   <div className="photo-tile">
     <img src={props.link}></img>
   </div>
 );
 
-export default PhotoEntry;
+export default PhotoTile;
