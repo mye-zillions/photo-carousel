@@ -1,12 +1,14 @@
 /* eslint linebreak-style: ["error", "windows"] */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PhotoCarousel from './components/PhotoCarousel.jsx';
+import './styles/style.css';
 
-const App = () => (
-  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam magni voluptatem tempora voluptates dignissimos blanditiis eaque provident aliquam qui impedit atque, alias dolorem, libero quas, rerum quae temporibus consequuntur odio!</div>
+const App = (props) => (
+  <PhotoCarousel id={props.id} />
 )
 
 ReactDOM.render(
-  <App />,
+  <App id="45" />,
   document.getElementById('app')
 )

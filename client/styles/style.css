@@ -1,0 +1,14 @@
+.carousel-container {
+  display: flex;
+  overflow: auto;
+  width: 100%;
+}
+
+.photo-tile {
+  flex-direction: column;
+  padding: 5px;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

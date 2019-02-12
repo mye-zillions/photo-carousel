@@ -1,5 +1,3 @@
-/* eslint linebreak-style: ["error", "windows"] */
-
 const mysql = require('mysql2/promise');
 const Sequelize = require('sequelize');
 const faker = require('faker');
