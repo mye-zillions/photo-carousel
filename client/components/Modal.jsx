@@ -1,18 +1,20 @@
 import React from 'react';
 
 class Modal extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   closeModal(event) {
-    // console.log(event.target);
     if (event.target.className.includes('modal')) {
-      event.target.style.display = "none";
+      this.props.closeModal();
     }
   }
 
   render() {
     return (
-      <div className="modal" onClick={this.closeModal.bind(this)}>
-        <img className="imgs" src="https://www.drawingnow.com/file/videos/steps/121736/how-to-draw-a-simple-boat-step-7.jpg" />
+      <div className="modal" style={{display: this.props.display}} onClick={this.closeModal.bind(this)}>
+        <img className="imgs" src={this.props.link} />
       </div>
     )
   }

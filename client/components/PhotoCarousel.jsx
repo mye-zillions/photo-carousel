@@ -1,13 +1,16 @@
 import React from 'react';
 import PhotoTile from './PhotoTile.jsx';
+import Modal from './Modal.jsx';
 
 class PhotoCarousel extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      modalView: false,
+      modalView: 'none',
+      modalId: '',
       thumbnails: [],
+      fulls: [],
     };
   }
 
@@ -20,12 +23,28 @@ class PhotoCarousel extends React.Component {
       .then(thumbnails => this.setState({thumbnails}));
   }
 
+  openModal(id) {
+    this.setState({
+      modalView: 'flex',
+      modalId: id,
+    });
+  }
+
+  closeModal() {
+    this.setState({
+      modalView: 'none',
+    });
+  }
+
   render() {
     return (
-      <div className="carousel-container">
-        {this.state.thumbnails.map((link, id) => (
-          <PhotoTile link={link} id={id} />
-        ))}
+      <div className="container">
+        <div className="carousel-container">
+          {this.state.thumbnails.map((link, id) => (
+            <PhotoTile link={link} id={id} openModal={this.openModal.bind(this)} />
+            ))}
+        </div>
+        <Modal display={this.state.modalView} link={this.state.thumbnails[this.state.modalId]} closeModal={this.closeModal.bind(this)} />
       </div>
     )
   }
