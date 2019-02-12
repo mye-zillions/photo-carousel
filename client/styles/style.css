@@ -29,10 +29,51 @@
   height: 100%;
   overflow: auto;
   justify-content: center;
-  background-color: rgb(0,0,0);
-  background-color: rgb(0,0,0,0.4);
+  background-color: black;
+  opacity: .9;
+}
+
+.modal-counter {
+  position: absolute;
+  display: inline-block;
+  top: 10px;
+  right: 10px;
+  border-radius: 3px;
+  padding: 5px 9px;
+  opacity: .8;
+  background-color: #444;
+  z-index: 10;
+  color: #fff;
+}
+
+.content {
+  position: relative;
+  display: block;
+  align-self: center;
 }
 
 .imgs {
   align-self: center;
+}
+
+button {
+  width: 35px;
+  height: 50px;
+  background-color: #333333;
+  opacity: .2;
+  align-self: center;
+}
+
+.back {
+  position: absolute;
+  left: 10px;
+}
+
+.forward {
+  position: absolute;
+  right: 10px;
+}
+
+.buttonText {
+  color: white;
 }
