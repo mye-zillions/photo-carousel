@@ -1,6 +1,19 @@
 import React from 'react';
-import PhotoTile from './PhotoTile.jsx';
-import Modal from './Modal.jsx';
+import PhotoTile from './PhotoTile';
+import Modal from './Modal';
+
+const formatCommas = (num) => {
+  const str = `${num}`;
+  let numberString = '';
+  for (let i = 0; i < str.length; i += 1) {
+    if (i > 0 && i % 3 === 0) {
+      numberString = `,${numberString}`;
+    }
+    numberString = str[str.length - 1 - i] + numberString;
+  }
+
+  return numberString;
+};
 
 class PhotoCarousel extends React.Component {
   constructor(props) {
@@ -9,18 +22,33 @@ class PhotoCarousel extends React.Component {
     this.state = {
       modalView: 'none',
       modalId: '',
+      basicDetails: {},
       thumbnails: [],
-      fulls: [],
+      // fulls: [],
     };
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.modalNavigateBack = this.modalNavigateBack.bind(this);
+    this.modalNavigateNext = this.modalNavigateNext.bind(this);
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3333/api/photos/${this.props.id}`) // $SERVER_URL
+    const { id } = this.props;
+    fetch(`http://localhost:3333/api/photos/${id}`) // $SERVER_URL
       .then(response => response.json())
-      .then(links => {
-        return links.map(({url}) => url)
+      .then(links => links.map(({ url }) => url))
+      .then(thumbnails => this.setState({ thumbnails }));
+
+    fetch(`http://localhost:3333/api/${id}/basicdetails`)
+      .then(response => response.json())
+      .then(([basicDetails]) => {
+        const details = basicDetails;
+        details.price = formatCommas(details.price);
+        details.sq_ft = formatCommas(details.sq_ft);
+        return details;
       })
-      .then(thumbnails => this.setState({thumbnails}));
+      .then(basicDetails => this.setState({ basicDetails }));
   }
 
   openModal(id) {
@@ -37,42 +65,46 @@ class PhotoCarousel extends React.Component {
   }
 
   modalNavigateNext(id) {
-    id = (id + 1) % this.state.thumbnails.length;
+    const { thumbnails } = this.state;
+    const modalId = (id + 1) % thumbnails.length;
     this.setState({
-      modalId: id,
+      modalId,
     });
   }
 
   modalNavigateBack(id) {
-    id = ((id - 1) + this.state.thumbnails.length) % this.state.thumbnails.length;
+    const { thumbnails } = this.state;
+    const modalId = ((id - 1) + thumbnails.length) % thumbnails.length;
     this.setState({
-      modalId: id,
+      modalId,
     });
   }
 
   render() {
+    const { thumbnails, modalView, modalId, basicDetails } = this.state;
     return (
       <div className="container">
         <div className="carousel-container">
-          {this.state.thumbnails.map((link, id) => (
-            <PhotoTile 
-              link={link} 
-              id={id} 
-              openModal={this.openModal.bind(this)} 
+          {thumbnails.map((link, id) => (
+            <PhotoTile
+              link={link}
+              id={id}
+              openModal={this.openModal}
             />
-            ))}
+          ))}
         </div>
-        <Modal 
-          display={this.state.modalView} 
-          link={this.state.thumbnails[this.state.modalId]} 
-          id={this.state.modalId}
-          imageCount={this.state.thumbnails.length}
-          closeModal={this.closeModal.bind(this)} 
-          btnBack={this.modalNavigateBack.bind(this)}
-          btnNext={this.modalNavigateNext.bind(this)}
+        <Modal
+          display={modalView}
+          link={thumbnails[modalId]}
+          id={modalId}
+          imageCount={thumbnails.length}
+          closeModal={this.closeModal}
+          btnBack={this.modalNavigateBack}
+          btnNext={this.modalNavigateNext}
+          details={basicDetails}
         />
       </div>
-    )
+    );
   }
 }
 

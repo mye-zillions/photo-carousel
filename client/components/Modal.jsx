@@ -1,23 +1,77 @@
 import React from 'react';
 
 class Modal extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.closeModal = this.closeModal.bind(this);
+  }
+
   closeModal(event) {
-    if (event.target.className.includes('modal')) {
-      this.props.closeModal();
+    const { closeModal } = this.props;
+    if (event.target.className.includes('modal-container') || event.target.innerText === 'close') {
+      closeModal();
     }
   }
 
   render() {
+    const { display, btnBack, btnNext, id, imageCount, link, details } = this.props;
     return (
-      <div className="modal" style={{display: this.props.display}} onClick={this.closeModal.bind(this)}>
-        <button className="back" onClick={() => {this.props.btnBack(this.props.id)}}><span className="buttonText">&lt;</span></button>
-        <div className="content">
-          <div className="modal-counter">{this.props.id + 1} of {this.props.imageCount}</div>
-          <img className="imgs" src={this.props.link} />
+      <div className="modal-container" style={{display}} onClick={this.closeModal}>
+        <div className="modal-bar">
+          <div className="modal-tab-link">
+            <div>Photos</div>
+          </div>
+          <ul className="modal-gallery-actions">
+            <li>
+              <div>
+                <button>Contact agent</button>
+              </div>
+            </li>
+            <li>
+              <div>
+                <i className="material-icons icon-light md-18">favorite_border</i>
+                <span>Save Home</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <i className="material-icons icon-light md-18">email</i>
+                <span>Share</span>
+              </div>
+            </li>
+            <li>
+              <div onClick={this.closeModal}>
+                <i className="material-icons icon-light md-30">close</i>
+              </div>
+            </li>
+          </ul>
         </div>
-        <button className="forward" onClick={() => {this.props.btnNext(this.props.id)}}><span className="buttonText">&gt;</span></button>
+        <button className="back" onClick={() => { btnBack(id) }}><i className="material-icons md-36 icon-light">arrow_back_ios</i></button>
+        <div className="content">
+          <div className="modal-counter">
+            {id + 1}
+            {' of '}
+            {imageCount}
+          </div>
+          <img className="imgs" src={link} alt="fullsize version" />
+        </div>
+        <button className="forward" onClick={() => { btnNext(id) }}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></button>
+        <div className="modal-footer">
+          <div className="property-details">
+            {'For Sale: $'}
+            {details.price}
+            {' ('}
+            {details.bed_count}
+            {' beds, '}
+            {details.bath_count}
+            {' baths, '}
+            {details.sq_ft}
+            {' sqft)'}
+          </div>
+        </div>
       </div>
-    )
+    );
   }
 }
 
