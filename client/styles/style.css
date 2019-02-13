@@ -101,6 +101,11 @@
   left: 30px;
 }
 
+/* For whatever reason, the icon itself isn't centered.. */
+.back > i {
+  margin-left: 6px;
+}
+
 .forward {
   position: absolute;
   right: 30px;
