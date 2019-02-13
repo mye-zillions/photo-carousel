@@ -15,7 +15,7 @@ class Modal extends React.Component {
   }
 
   render() {
-    const { display, btnBack, btnNext, id, imageCount, link } = this.props;
+    const { display, btnBack, btnNext, id, imageCount, link, details } = this.props;
     return (
       <div className="modal-container" style={{display}} onClick={this.closeModal}>
         <div className="modal-bar">
@@ -49,12 +49,29 @@ class Modal extends React.Component {
         </div>
         <button className="back" onClick={() => { btnBack(id) }}><i className="material-icons md-36 icon-light">arrow_back_ios</i></button>
         <div className="content">
-          <div className="modal-counter">{id + 1} of {imageCount}</div>
+          <div className="modal-counter">
+            {id + 1}
+            {' of '}
+            {imageCount}
+          </div>
           <img className="imgs" src={link} alt="fullsize version" />
         </div>
         <button className="forward" onClick={() => { btnNext(id) }}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></button>
+        <div className="modal-footer">
+          <div className="property-details">
+            {'For Sale: $'}
+            {details.price}
+            {' ('}
+            {details.bed_count}
+            {' beds, '}
+            {details.bath_count}
+            {' baths, '}
+            {details.sq_ft}
+            {' sqft)'}
+          </div>
+        </div>
       </div>
-    )
+    );
   }
 }
 

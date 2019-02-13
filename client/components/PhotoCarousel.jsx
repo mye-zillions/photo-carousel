@@ -2,6 +2,19 @@ import React from 'react';
 import PhotoTile from './PhotoTile';
 import Modal from './Modal';
 
+const formatCommas = (num) => {
+  const str = `${num}`;
+  let numberString = '';
+  for (let i = 0; i < str.length; i += 1) {
+    if (i > 0 && i % 3 === 0) {
+      numberString = `,${numberString}`;
+    }
+    numberString = str[str.length - 1 - i] + numberString;
+  }
+
+  return numberString;
+};
+
 class PhotoCarousel extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +22,7 @@ class PhotoCarousel extends React.Component {
     this.state = {
       modalView: 'none',
       modalId: '',
+      basicDetails: {},
       thumbnails: [],
       // fulls: [],
     };
@@ -25,6 +39,16 @@ class PhotoCarousel extends React.Component {
       .then(response => response.json())
       .then(links => links.map(({ url }) => url))
       .then(thumbnails => this.setState({ thumbnails }));
+
+    fetch(`http://localhost:3333/api/${id}/basicdetails`)
+      .then(response => response.json())
+      .then(([basicDetails]) => {
+        const details = basicDetails;
+        details.price = formatCommas(details.price);
+        details.sq_ft = formatCommas(details.sq_ft);
+        return details;
+      })
+      .then(basicDetails => this.setState({ basicDetails }));
   }
 
   openModal(id) {
@@ -57,7 +81,7 @@ class PhotoCarousel extends React.Component {
   }
 
   render() {
-    const { thumbnails, modalView, modalId } = this.state;
+    const { thumbnails, modalView, modalId, basicDetails } = this.state;
     return (
       <div className="container">
         <div className="carousel-container">
@@ -77,6 +101,7 @@ class PhotoCarousel extends React.Component {
           closeModal={this.closeModal}
           btnBack={this.modalNavigateBack}
           btnNext={this.modalNavigateNext}
+          details={basicDetails}
         />
       </div>
     );
