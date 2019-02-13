@@ -92,20 +92,26 @@ mysql.createConnection({
               min: 1000,
               max: 30000,
             }),
-          }).save());
-          const numImages = faker.random.number({
-            min: 20,
-            max: 50,
-          });
-          for (let j = 0; j < numImages; j += 1) {
-            promises.push(Photo.build({
-              url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/sample${i + 1}.jpg`,
-              property_id: i + 1,
-            }).save());
-          }
+          }).save().catch(() => {}));
         }
         return Promise.all(promises)
-          .catch(() => {});
+          .catch((error) => {console.log(error)});
+      })
+      .then(() => {
+        // const promises = [];
+        // for (let i = 0; i < 100; i += 1) {
+        //   const numImages = faker.random.number({
+        //     min: 20,
+        //     max: 50,
+        //   });
+        //   for (let j = 0; j < numImages; j += 1) {
+        //     promises.push(Photo.build({
+        //       url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/sample${i + 1}.jpg`,
+        //       property_id: i + 1,
+        //     }).save().catch(() => {}));
+        //   }
+        // }
+        // return Promise.all(promises);
       })
       .then(() => sequelize.close());
   });
