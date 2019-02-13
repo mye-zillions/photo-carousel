@@ -1,13 +1,9 @@
 import React from 'react';
 
-const PhotoTile = props => (
-  <div className="photo-tile" onClick={(() => passId(props)).bind(this)}>
-    <img src={props.link}></img>
+const PhotoTile = ({ openModal, id, link }) => (
+  <div className="photo-tile" onClick={() => openModal(id)}>
+    <img src={link} alt="property" />
   </div>
 );
-
-const passId = (props) => {
-  props.openModal(props.id);
-}
 
 export default PhotoTile;

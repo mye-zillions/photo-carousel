@@ -1,6 +1,6 @@
 import React from 'react';
-import PhotoTile from './PhotoTile.jsx';
-import Modal from './Modal.jsx';
+import PhotoTile from './PhotoTile';
+import Modal from './Modal';
 
 class PhotoCarousel extends React.Component {
   constructor(props) {
@@ -10,17 +10,21 @@ class PhotoCarousel extends React.Component {
       modalView: 'none',
       modalId: '',
       thumbnails: [],
-      fulls: [],
+      // fulls: [],
     };
+
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.modalNavigateBack = this.modalNavigateBack.bind(this);
+    this.modalNavigateNext = this.modalNavigateNext.bind(this);
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3333/api/photos/${this.props.id}`) // $SERVER_URL
+    const { id } = this.props;
+    fetch(`http://localhost:3333/api/photos/${id}`) // $SERVER_URL
       .then(response => response.json())
-      .then(links => {
-        return links.map(({url}) => url)
-      })
-      .then(thumbnails => this.setState({thumbnails}));
+      .then(links => links.map(({ url }) => url))
+      .then(thumbnails => this.setState({ thumbnails }));
   }
 
   openModal(id) {
@@ -37,42 +41,45 @@ class PhotoCarousel extends React.Component {
   }
 
   modalNavigateNext(id) {
-    id = (id + 1) % this.state.thumbnails.length;
+    const { thumbnails } = this.state;
+    const modalId = (id + 1) % thumbnails.length;
     this.setState({
-      modalId: id,
+      modalId,
     });
   }
 
   modalNavigateBack(id) {
-    id = ((id - 1) + this.state.thumbnails.length) % this.state.thumbnails.length;
+    const { thumbnails } = this.state;
+    const modalId = ((id - 1) + thumbnails.length) % thumbnails.length;
     this.setState({
-      modalId: id,
+      modalId,
     });
   }
 
   render() {
+    const { thumbnails, modalView, modalId } = this.state;
     return (
       <div className="container">
         <div className="carousel-container">
-          {this.state.thumbnails.map((link, id) => (
-            <PhotoTile 
-              link={link} 
-              id={id} 
-              openModal={this.openModal.bind(this)} 
+          {thumbnails.map((link, id) => (
+            <PhotoTile
+              link={link}
+              id={id}
+              openModal={this.openModal}
             />
-            ))}
+          ))}
         </div>
-        <Modal 
-          display={this.state.modalView} 
-          link={this.state.thumbnails[this.state.modalId]} 
-          id={this.state.modalId}
-          imageCount={this.state.thumbnails.length}
-          closeModal={this.closeModal.bind(this)} 
-          btnBack={this.modalNavigateBack.bind(this)}
-          btnNext={this.modalNavigateNext.bind(this)}
+        <Modal
+          display={modalView}
+          link={thumbnails[modalId]}
+          id={modalId}
+          imageCount={thumbnails.length}
+          closeModal={this.closeModal}
+          btnBack={this.modalNavigateBack}
+          btnNext={this.modalNavigateNext}
         />
       </div>
-    )
+    );
   }
 }
 
