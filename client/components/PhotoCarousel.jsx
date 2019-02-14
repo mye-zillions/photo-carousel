@@ -30,6 +30,8 @@ class PhotoCarousel extends React.Component {
     this.state = {
       modalView: 'none',
       modalId: '',
+      beginScroll: true,
+      endScroll: false,
       basicDetails: {},
       thumbnails: [],
       // fulls: [],
@@ -39,6 +41,8 @@ class PhotoCarousel extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.modalNavigateBack = this.modalNavigateBack.bind(this);
     this.modalNavigateNext = this.modalNavigateNext.bind(this);
+    this.scrollLeft = this.scrollLeft.bind(this);
+    this.scrollRight = this.scrollRight.bind(this);
   }
 
   componentDidMount() {
@@ -76,20 +80,56 @@ class PhotoCarousel extends React.Component {
   scrollLeft(event) {
     event.preventDefault();
     const carousel = document.querySelector('#carousel');
-    // carousel.scrollLeft -= carousel.clientWidth;
     $('#carousel').animate({
       scrollLeft: `-=${carousel.clientWidth}`,
-    }, 'slow');
+    }, 'slow', () => {
+      if (carousel.scrollLeft === 0) {
+        this.setState({
+          beginScroll: true,
+        });
+      }
+
+      this.setState({
+        endScroll: false,
+      });
+    });
+
   }
 
   // eslint-disable-next-line class-methods-use-this
   scrollRight(event) {
     event.preventDefault();
     const carousel = document.querySelector('#carousel');
-    // carousel.scrollLeft += carousel.clientWidth;
-    $('#carousel').animate({
-      scrollLeft: `+=${carousel.clientWidth}`,
-    }, 'slow');
+    const { endScroll } = this.state;
+
+    if (endScroll) {
+      $('#carousel').animate({
+        scrollLeft: `-=${carousel.scrollWidth}`,
+      }, 'slow', () => {
+        this.setState({
+          beginScroll: true,
+          endScroll: false,
+        })
+      });
+    } else {
+      $('#carousel').animate({
+        scrollLeft: `+=${carousel.clientWidth}`,
+      }, 'slow', () => {
+        if (carousel.scrollLeft !== 0) {
+          this.setState({
+            beginScroll: false,
+          });
+        }
+
+        if ((carousel.scrollLeft + carousel.clientWidth) === carousel.scrollWidth) {
+          this.setState({
+            endScroll: true,
+          });
+        }
+      });
+    }
+
+
   }
 
 
@@ -114,13 +154,17 @@ class PhotoCarousel extends React.Component {
       thumbnails,
       modalView,
       modalId,
+      beginScroll,
+      endScroll,
       basicDetails,
     } = this.state;
     return (
       <ServiceContainer>
         <CarouselContainer>
           <CarouselLeftDiv>
-            <CarouselButton onClick={this.scrollLeft}><i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i></CarouselButton>
+            <CarouselButton style={{ display: beginScroll ? 'none' : 'flex' }} onClick={this.scrollLeft}>
+              <i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i>
+            </CarouselButton>
           </CarouselLeftDiv>
           <ImageContainer id="carousel">
             {thumbnails.map((link, id) => (
@@ -132,7 +176,9 @@ class PhotoCarousel extends React.Component {
             ))}
           </ImageContainer>
           <CarouselRightDiv>
-            <CarouselButton onClick={this.scrollRight}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></CarouselButton>
+            <CarouselButton onClick={this.scrollRight}>
+              <i className="material-icons md-36 icon-light">{endScroll ? 'replay' : 'arrow_forward_ios'}</i>
+            </CarouselButton>
           </CarouselRightDiv>
         </CarouselContainer>
         <Modal
