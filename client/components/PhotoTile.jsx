@@ -1,9 +1,10 @@
 import React from 'react';
+import { Tile } from '../styles';
 
 const PhotoTile = ({ openModal, id, link }) => (
-  <div className="photo-tile" onClick={() => openModal(id)}>
+  <Tile onClick={() => openModal(id)}>
     <img src={link} alt="property" />
-  </div>
+  </Tile>
 );
 
 export default PhotoTile;

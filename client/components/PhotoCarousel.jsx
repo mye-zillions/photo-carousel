@@ -1,6 +1,7 @@
 import React from 'react';
 import PhotoTile from './PhotoTile';
 import Modal from './Modal';
+import { CarouselContainer } from '../styles';
 
 const formatCommas = (num) => {
   const str = `${num}`;
@@ -83,8 +84,8 @@ class PhotoCarousel extends React.Component {
   render() {
     const { thumbnails, modalView, modalId, basicDetails } = this.state;
     return (
-      <div className="container">
-        <div className="carousel-container">
+      <div>
+        <CarouselContainer>
           {thumbnails.map((link, id) => (
             <PhotoTile
               link={link}
@@ -92,7 +93,7 @@ class PhotoCarousel extends React.Component {
               openModal={this.openModal}
             />
           ))}
-        </div>
+        </CarouselContainer>
         <Modal
           display={modalView}
           link={thumbnails[modalId]}

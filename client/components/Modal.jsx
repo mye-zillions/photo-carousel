@@ -1,4 +1,17 @@
 import React from 'react';
+import { ModalContainer,
+  Content,
+  ModalCounter,
+  ModalBar,
+  ModalTabLink,
+  ModalGalleryActions,
+  ModalFooter,
+  PropertyDetails,
+  GalleryActionItem,
+  ItemDiv,
+  GalleryButton,
+  ModalButton,
+} from '../styles';
 
 class Modal extends React.Component {
   constructor(props) {
@@ -9,7 +22,7 @@ class Modal extends React.Component {
 
   closeModal(event) {
     const { closeModal } = this.props;
-    if (event.target.className.includes('modal-container') || event.target.innerText === 'close') {
+    if (event.target.className.includes('can-close') || event.target.innerText === 'close') {
       closeModal();
     }
   }
@@ -17,48 +30,48 @@ class Modal extends React.Component {
   render() {
     const { display, btnBack, btnNext, id, imageCount, link, details } = this.props;
     return (
-      <div className="modal-container" style={{display}} onClick={this.closeModal}>
-        <div className="modal-bar">
-          <div className="modal-tab-link">
+      <ModalContainer className="can-close" style={{display}} onClick={this.closeModal}>
+        <ModalBar>
+          <ModalTabLink>
             <div>Photos</div>
-          </div>
-          <ul className="modal-gallery-actions">
-            <li>
-              <div>
-                <button>Contact agent</button>
-              </div>
-            </li>
-            <li>
-              <div>
+          </ModalTabLink>
+          <ModalGalleryActions>
+            <GalleryActionItem>
+              <ItemDiv>
+                <GalleryButton>Contact agent</GalleryButton>
+              </ItemDiv>
+            </GalleryActionItem>
+            <GalleryActionItem>
+              <ItemDiv>
                 <i className="material-icons icon-light md-18">favorite_border</i>
                 <span>Save Home</span>
-              </div>
-            </li>
-            <li>
-              <div>
+              </ItemDiv>
+            </GalleryActionItem>
+            <GalleryActionItem>
+              <ItemDiv>
                 <i className="material-icons icon-light md-18">email</i>
                 <span>Share</span>
-              </div>
-            </li>
-            <li>
-              <div onClick={this.closeModal}>
+              </ItemDiv>
+            </GalleryActionItem>
+            <GalleryActionItem>
+              <ItemDiv onClick={this.closeModal}>
                 <i className="material-icons icon-light md-30">close</i>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <button className="back" onClick={() => { btnBack(id) }}><i className="material-icons md-36 icon-light">arrow_back_ios</i></button>
-        <div className="content">
-          <div className="modal-counter">
+              </ItemDiv>
+            </GalleryActionItem>
+          </ModalGalleryActions>
+        </ModalBar>
+        <ModalButton className="back" onClick={() => { btnBack(id) }}><i className="material-icons md-36 icon-light">arrow_back_ios</i></ModalButton>
+        <Content>
+          <ModalCounter>
             {id + 1}
             {' of '}
             {imageCount}
-          </div>
+          </ModalCounter>
           <img className="imgs" src={link} alt="fullsize version" />
-        </div>
-        <button className="forward" onClick={() => { btnNext(id) }}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></button>
-        <div className="modal-footer">
-          <div className="property-details">
+        </Content>
+        <ModalButton className="forward" onClick={() => { btnNext(id) }}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></ModalButton>
+        <ModalFooter>
+          <PropertyDetails>
             {'For Sale: $'}
             {details.price}
             {' ('}
@@ -68,9 +81,9 @@ class Modal extends React.Component {
             {' baths, '}
             {details.sq_ft}
             {' sqft)'}
-          </div>
-        </div>
-      </div>
+          </PropertyDetails>
+        </ModalFooter>
+      </ModalContainer>
     );
   }
 }
