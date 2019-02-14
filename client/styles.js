@@ -18,6 +18,12 @@ export const ServiceContainer = styled.div`
 export const CarouselContainer = styled.div`
   display: flex;
   position: relative;
+  width: 100%;
+`;
+
+export const ImageContainer = styled.div`
+  display: flex;
+  position: relative;
   overflow: auto;
   width: 100%;
   overflow-x: hidden;
@@ -146,6 +152,7 @@ export const CarouselLeftDiv = styled.div`
   position: absolute;
   justify-content: center;
   left: 10px;
+  z-index: 1;
 `;
 
 export const CarouselRightDiv = styled.div`
@@ -155,4 +162,5 @@ export const CarouselRightDiv = styled.div`
   position: absolute;
   justify-content: center;
   right: 10px;
+  z-index: 1;
 `;

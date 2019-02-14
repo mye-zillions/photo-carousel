@@ -7,6 +7,7 @@ import {
   ServiceContainer,
   CarouselLeftDiv,
   CarouselRightDiv,
+  ImageContainer,
 } from '../styles';
 
 const formatCommas = (num) => {
@@ -71,6 +72,27 @@ class PhotoCarousel extends React.Component {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  scrollLeft(event) {
+    event.preventDefault();
+    const carousel = document.querySelector('#carousel');
+    // carousel.scrollLeft -= carousel.clientWidth;
+    $('#carousel').animate({
+      scrollLeft: `-=${carousel.clientWidth}`,
+    }, 'slow');
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  scrollRight(event) {
+    event.preventDefault();
+    const carousel = document.querySelector('#carousel');
+    // carousel.scrollLeft += carousel.clientWidth;
+    $('#carousel').animate({
+      scrollLeft: `+=${carousel.clientWidth}`,
+    }, 'slow');
+  }
+
+
   modalNavigateNext(id) {
     const { thumbnails } = this.state;
     const modalId = (id + 1) % thumbnails.length;
@@ -88,22 +110,29 @@ class PhotoCarousel extends React.Component {
   }
 
   render() {
-    const { thumbnails, modalView, modalId, basicDetails } = this.state;
+    const {
+      thumbnails,
+      modalView,
+      modalId,
+      basicDetails,
+    } = this.state;
     return (
       <ServiceContainer>
         <CarouselContainer>
           <CarouselLeftDiv>
-            <CarouselButton><i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i></CarouselButton>
+            <CarouselButton onClick={this.scrollLeft}><i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i></CarouselButton>
           </CarouselLeftDiv>
-          {thumbnails.map((link, id) => (
-            <PhotoTile
-              link={link}
-              id={id}
-              openModal={this.openModal}
-            />
-          ))}
+          <ImageContainer id="carousel">
+            {thumbnails.map((link, id) => (
+              <PhotoTile
+                link={link}
+                id={id}
+                openModal={this.openModal}
+              />
+            ))}
+          </ImageContainer>
           <CarouselRightDiv>
-            <CarouselButton><i className="material-icons md-36 icon-light">arrow_forward_ios</i></CarouselButton>
+            <CarouselButton onClick={this.scrollRight}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></CarouselButton>
           </CarouselRightDiv>
         </CarouselContainer>
         <Modal
