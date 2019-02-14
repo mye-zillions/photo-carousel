@@ -60,7 +60,7 @@ class Modal extends React.Component {
             </GalleryActionItem>
           </ModalGalleryActions>
         </ModalBar>
-        <ModalButton className="back" onClick={() => { btnBack(id) }}><i className="material-icons md-36 icon-light">arrow_back_ios</i></ModalButton>
+        <ModalButton className="back" onClick={() => { btnBack(id) }}><i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i></ModalButton>
         <Content>
           <ModalCounter>
             {id + 1}

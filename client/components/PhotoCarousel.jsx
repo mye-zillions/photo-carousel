@@ -1,7 +1,13 @@
 import React from 'react';
 import PhotoTile from './PhotoTile';
 import Modal from './Modal';
-import { CarouselContainer } from '../styles';
+import {
+  CarouselContainer,
+  CarouselButton,
+  ServiceContainer,
+  CarouselLeftDiv,
+  CarouselRightDiv,
+} from '../styles';
 
 const formatCommas = (num) => {
   const str = `${num}`;
@@ -84,8 +90,11 @@ class PhotoCarousel extends React.Component {
   render() {
     const { thumbnails, modalView, modalId, basicDetails } = this.state;
     return (
-      <div>
+      <ServiceContainer>
         <CarouselContainer>
+          <CarouselLeftDiv>
+            <CarouselButton><i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i></CarouselButton>
+          </CarouselLeftDiv>
           {thumbnails.map((link, id) => (
             <PhotoTile
               link={link}
@@ -93,6 +102,9 @@ class PhotoCarousel extends React.Component {
               openModal={this.openModal}
             />
           ))}
+          <CarouselRightDiv>
+            <CarouselButton><i className="material-icons md-36 icon-light">arrow_forward_ios</i></CarouselButton>
+          </CarouselRightDiv>
         </CarouselContainer>
         <Modal
           display={modalView}
@@ -104,7 +116,7 @@ class PhotoCarousel extends React.Component {
           btnNext={this.modalNavigateNext}
           details={basicDetails}
         />
-      </div>
+      </ServiceContainer>
     );
   }
 }
