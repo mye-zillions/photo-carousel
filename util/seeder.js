@@ -15,6 +15,7 @@ mysql.createConnection({
   .then(() => {
     const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
       dialect: 'mysql',
+      logging: () => {},
     });
 
     const Photo = sequelize.define('photo', {
@@ -74,7 +75,7 @@ mysql.createConnection({
       .then(() => {
         const promises = [];
         for (let i = 0; i < 100; i += 1) {
-          promises.push(Property.build({
+          promises.push(Property.create({
             name: faker.address.streetAddress(),
             price: faker.random.number({
               min: 500000,
@@ -92,24 +93,21 @@ mysql.createConnection({
               min: 1000,
               max: 30000,
             }),
-          }).save().catch(() => {}));
-        }
-        return Promise.all(promises)
-          .catch(() => {});
-      })
-      .then(() => {
-        const promises = [];
-        for (let i = 0; i < 100; i += 1) {
-          const numImages = faker.random.number({
-            min: 20,
-            max: 50,
-          });
-          for (let j = 0; j < numImages; j += 1) {
-            promises.push(Photo.build({
-              url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/sample${i + 1}.jpg`,
-              property_id: i + 1,
-            }).save().catch(() => {}));
-          }
+          })
+            .then(() => {
+              const photos = [];
+              const numImages = faker.random.number({
+                min: 20,
+                max: 50,
+              });
+              for (let j = 0; j < numImages; j += 1) {
+                photos.push({
+                  url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/sample${i + 1}.jpg`,
+                  property_id: i + 1,
+                });
+              }
+              return Photo.bulkCreate(photos);
+            }));
         }
         return Promise.all(promises);
       })
