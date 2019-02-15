@@ -67,7 +67,7 @@ class Modal extends React.Component {
             {' of '}
             {imageCount}
           </ModalCounter>
-          <img className="imgs" src={link} alt="fullsize version" />
+          <img src={link} alt="fullsize version" />
         </Content>
         <ModalButton className="forward" onClick={() => { btnNext(id) }}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></ModalButton>
         <ModalFooter>
