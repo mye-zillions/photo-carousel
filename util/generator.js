@@ -24,10 +24,10 @@ async function downloadImage(params) {
 
 for (let i = 0; i < 100; i += 1) {
   const params = {
-    width: 320,
-    height: 240,
+    width: 640,
+    height: 480,
     keyword: keywords[Math.floor(Math.random() * keywords.length)],
-    imageName: `sample${i + 1}.jpg`,
+    imageName: `large${i + 1}.jpg`,
   };
   downloadImage(params)
     .catch((error) => {
