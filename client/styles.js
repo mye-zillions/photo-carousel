@@ -42,8 +42,7 @@ export const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
   justify-content: center;
-  background-color: black;
-  opacity: .9;  
+  background-color: rgba(0, 0, 0, .9);
 `;
 
 export const Content = styled.div`
