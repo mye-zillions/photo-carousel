@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Tile = styled.div`
   flex-direction: column;
-  padding: 5px;
+  padding: 0px 1px;
 `;
 
 export const ServiceContainer = styled.div`
@@ -23,9 +23,11 @@ export const CarouselContainer = styled.div`
 
 export const ImageContainer = styled.div`
   display: flex;
+  flex-flow: column wrap;
   position: relative;
   overflow: auto;
   width: 100%;
+  height: 506px;
   overflow-x: hidden;
 `;
 
@@ -40,14 +42,14 @@ export const ModalContainer = styled.div`
   width: 100%;
   height: 100%;
   justify-content: center;
-  background-color: black;
-  opacity: .9;  
+  background-color: rgba(0, 0, 0, .9);
 `;
 
 export const Content = styled.div`
   position: relative;
   display: block;
   align-self: center;
+  opacity: 1;
 `;
 
 export const ModalCounter = styled.div`
