@@ -8,7 +8,7 @@
 }
 
 /* For whatever reason, the icon itself isn't centered.. */
-.back > i {
+.back-icon {
   margin-left: 6px;
 }
 

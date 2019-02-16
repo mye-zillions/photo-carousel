@@ -5,10 +5,28 @@ export const Tile = styled.div`
   padding: 5px;
 `;
 
+export const ServiceContainer = styled.div`
+  font-family: Gotham,gotham,Verdana,sans-serif;
+  font-size: 85%;
+  display: flex;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  justify-content: center; 
+`;
+
 export const CarouselContainer = styled.div`
   display: flex;
+  position: relative;
+  width: 100%;
+`;
+
+export const ImageContainer = styled.div`
+  display: flex;
+  position: relative;
   overflow: auto;
   width: 100%;
+  overflow-x: hidden;
 `;
 
 export const ModalContainer = styled.div`
@@ -114,4 +132,35 @@ export const ModalButton = styled.button`
   opacity: .4;
   align-self: center;
   border: 1px solid #fff;
+`;
+
+export const CarouselButton = styled.button`
+  width: 35px;
+  height: 50px;
+  padding: 0;
+  background-color: #333333;
+  opacity: .5;
+  border: 1px solid #fff;
+  position: absolute;
+  align-self: center;
+`;
+
+export const CarouselLeftDiv = styled.div`
+  display: flex;
+  height: 100%;
+  min-width: 35px;
+  position: absolute;
+  justify-content: center;
+  left: 10px;
+  z-index: 1;
+`;
+
+export const CarouselRightDiv = styled.div`
+  display: flex;
+  height: 100%;
+  min-width: 35px;
+  position: absolute;
+  justify-content: center;
+  right: 10px;
+  z-index: 1;
 `;

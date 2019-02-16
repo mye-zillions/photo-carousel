@@ -1,7 +1,14 @@
 import React from 'react';
 import PhotoTile from './PhotoTile';
 import Modal from './Modal';
-import { CarouselContainer } from '../styles';
+import {
+  CarouselContainer,
+  CarouselButton,
+  ServiceContainer,
+  CarouselLeftDiv,
+  CarouselRightDiv,
+  ImageContainer,
+} from '../styles';
 
 const formatCommas = (num) => {
   const str = `${num}`;
@@ -23,6 +30,8 @@ class PhotoCarousel extends React.Component {
     this.state = {
       modalView: 'none',
       modalId: '',
+      beginScroll: true,
+      endScroll: false,
       basicDetails: {},
       thumbnails: [],
       // fulls: [],
@@ -32,6 +41,8 @@ class PhotoCarousel extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.modalNavigateBack = this.modalNavigateBack.bind(this);
     this.modalNavigateNext = this.modalNavigateNext.bind(this);
+    this.scrollLeft = this.scrollLeft.bind(this);
+    this.scrollRight = this.scrollRight.bind(this);
   }
 
   componentDidMount() {
@@ -65,6 +76,63 @@ class PhotoCarousel extends React.Component {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  scrollLeft(event) {
+    event.preventDefault();
+    const carousel = document.querySelector('#carousel');
+    $('#carousel').animate({
+      scrollLeft: `-=${carousel.clientWidth}`,
+    }, 'slow', () => {
+      if (carousel.scrollLeft === 0) {
+        this.setState({
+          beginScroll: true,
+        });
+      }
+
+      this.setState({
+        endScroll: false,
+      });
+    });
+
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  scrollRight(event) {
+    event.preventDefault();
+    const carousel = document.querySelector('#carousel');
+    const { endScroll } = this.state;
+
+    if (endScroll) {
+      $('#carousel').animate({
+        scrollLeft: `-=${carousel.scrollWidth}`,
+      }, 'slow', () => {
+        this.setState({
+          beginScroll: true,
+          endScroll: false,
+        })
+      });
+    } else {
+      $('#carousel').animate({
+        scrollLeft: `+=${carousel.clientWidth}`,
+      }, 'slow', () => {
+        if (carousel.scrollLeft !== 0) {
+          this.setState({
+            beginScroll: false,
+          });
+        }
+
+        if ((carousel.scrollLeft + carousel.clientWidth) === carousel.scrollWidth) {
+          this.setState({
+            endScroll: true,
+          });
+        }
+      });
+    }
+
+
+  }
+
+
   modalNavigateNext(id) {
     const { thumbnails } = this.state;
     const modalId = (id + 1) % thumbnails.length;
@@ -82,17 +150,36 @@ class PhotoCarousel extends React.Component {
   }
 
   render() {
-    const { thumbnails, modalView, modalId, basicDetails } = this.state;
+    const {
+      thumbnails,
+      modalView,
+      modalId,
+      beginScroll,
+      endScroll,
+      basicDetails,
+    } = this.state;
     return (
-      <div>
+      <ServiceContainer>
         <CarouselContainer>
-          {thumbnails.map((link, id) => (
-            <PhotoTile
-              link={link}
-              id={id}
-              openModal={this.openModal}
-            />
-          ))}
+          <CarouselLeftDiv>
+            <CarouselButton style={{ display: beginScroll ? 'none' : 'flex' }} onClick={this.scrollLeft}>
+              <i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i>
+            </CarouselButton>
+          </CarouselLeftDiv>
+          <ImageContainer id="carousel">
+            {thumbnails.map((link, id) => (
+              <PhotoTile
+                link={link}
+                id={id}
+                openModal={this.openModal}
+              />
+            ))}
+          </ImageContainer>
+          <CarouselRightDiv>
+            <CarouselButton onClick={this.scrollRight}>
+              <i className="material-icons md-36 icon-light">{endScroll ? 'replay' : 'arrow_forward_ios'}</i>
+            </CarouselButton>
+          </CarouselRightDiv>
         </CarouselContainer>
         <Modal
           display={modalView}
@@ -104,7 +191,7 @@ class PhotoCarousel extends React.Component {
           btnNext={this.modalNavigateNext}
           details={basicDetails}
         />
-      </div>
+      </ServiceContainer>
     );
   }
 }
