@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Tile = styled.div`
   flex-direction: column;
-  padding: 0px 1px;
+  margin: 1px;
 `;
 
 export const ServiceContainer = styled.div`
@@ -27,7 +27,7 @@ export const ImageContainer = styled.div`
   position: relative;
   overflow: auto;
   width: 100%;
-  height: 506px;
+  height: 420px;
   overflow-x: hidden;
 `;
 

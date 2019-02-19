@@ -186,6 +186,8 @@ class PhotoCarousel extends React.Component {
                 link={link}
                 id={id}
                 openModal={this.openModal}
+                height={id ? '206px' : '414px'}
+                width={id ? '278px' : '548px'}
               />
             ))}
           </ImageContainer>
