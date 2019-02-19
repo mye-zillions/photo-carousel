@@ -14,6 +14,7 @@ app.get('/api/:propertyId/basicdetails', (req, res) => {
   const propertyId = Number(req.params.propertyId);
   db.getDetails(propertyId)
     .then((details) => {
+      res.set('Access-Control-Allow-Origin', '*');
       res.status(200).send(details);
     })
     .catch((error) => {
@@ -27,6 +28,7 @@ app.get('/api/photos/:propertyId', (req, res) => {
   const propertyId = Number(req.params.propertyId);
   db.getPhotos(propertyId)
     .then((links) => {
+      res.set('Access-Control-Allow-Origin', '*');
       res.status(200).send(links);
     })
     .catch((error) => {

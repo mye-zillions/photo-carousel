@@ -82,20 +82,23 @@ class PhotoCarousel extends React.Component {
   scrollLeft(event) {
     event.preventDefault();
     const carousel = document.querySelector('#carousel');
-    $('#carousel').animate({
-      scrollLeft: `-=${carousel.clientWidth}`,
-    }, 'slow', () => {
-      if (carousel.scrollLeft === 0) {
+    const start = carousel.scrollLeft;
+    const increment = 20;
+    let currentTime = 0;
+
+    const animateScroll = () => {
+      currentTime += increment;
+      const val = Math.easeInOutQuad(currentTime, start, 0 - carousel.clientWidth, 1000);
+      carousel.scrollLeft = val;
+      if (currentTime < 1000) {
+        setTimeout(animateScroll, increment);
+      } else {
         this.setState({
-          beginScroll: true,
+          endScroll: false,
         });
       }
-
-      this.setState({
-        endScroll: false,
-      });
-    });
-
+    };
+    animateScroll();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -104,19 +107,30 @@ class PhotoCarousel extends React.Component {
     const carousel = document.querySelector('#carousel');
     const { endScroll } = this.state;
 
+    const start = carousel.scrollLeft;
+    const increment = 20;
+    let currentTime = 0;
+
+    const animateScroll = (distance, callback) => {
+      currentTime += increment;
+      const val = Math.easeInOutQuad(currentTime, start, distance, 1000);
+      carousel.scrollLeft = val;
+      if (currentTime < 1000) {
+        setTimeout(() => { animateScroll(distance, callback); }, increment);
+      } else {
+        callback();
+      }
+    };
+
     if (endScroll) {
-      $('#carousel').animate({
-        scrollLeft: `-=${carousel.scrollWidth}`,
-      }, 'slow', () => {
+      animateScroll(0 - carousel.scrollWidth, () => {
         this.setState({
           beginScroll: true,
           endScroll: false,
-        })
+        });
       });
     } else {
-      $('#carousel').animate({
-        scrollLeft: `+=${carousel.clientWidth}`,
-      }, 'slow', () => {
+      animateScroll(carousel.clientWidth, () => {
         if (carousel.scrollLeft !== 0) {
           this.setState({
             beginScroll: false,
@@ -130,8 +144,6 @@ class PhotoCarousel extends React.Component {
         }
       });
     }
-
-
   }
 
 
@@ -197,5 +209,17 @@ class PhotoCarousel extends React.Component {
     );
   }
 }
+
+// t = current time
+// b = start value
+// c = change in value
+// d = duration
+// eslint-disable-next-line func-names
+Math.easeInOutQuad = function (t, b, c, d) {
+  t /= d / 2;
+  if (t < 1) return c / 2 * t * t + b;
+  t -= 1;
+  return -c / 2 * (t * (t - 2) - 1) + b;
+};
 
 export default PhotoCarousel;
