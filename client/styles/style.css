@@ -1,0 +1,35 @@
+::-webkit-scrollbar {
+  display: none;
+}
+
+.back {
+  position: absolute;
+  left: 30px;
+}
+
+/* For whatever reason, the icon itself isn't centered.. */
+.back-icon {
+  margin-left: 6px;
+}
+
+.forward {
+  position: absolute;
+  right: 30px;
+}
+
+
+li > div > span {
+  padding-left: 10px; 
+}
+
+.icon-light {
+  color: #fff;
+}
+
+.md-18 {
+  font-size: 18px;
+}
+
+.md-30 {
+  font-size: 30px;
+}
