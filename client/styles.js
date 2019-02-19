@@ -126,7 +126,21 @@ export const GalleryButton = styled.button`
   padding: 7px 12px;
 `;
 
-export const ModalButton = styled.button`
+export const ModalLeftButton = styled.button`
+  position: absolute;
+  left: 30px;
+  width: 35px;
+  height: 50px;
+  padding: 0;
+  background-color: #333333;
+  opacity: .4;
+  align-self: center;
+  border: 1px solid #fff;
+`;
+
+export const ModalRightButton = styled.button`
+  position: absolute;
+  right: 30px;
   width: 35px;
   height: 50px;
   padding: 0;
@@ -165,4 +179,13 @@ export const CarouselRightDiv = styled.div`
   justify-content: center;
   right: 10px;
   z-index: 1;
+`;
+
+export const BackIcon = styled.i`
+  margin-left: 6px;
+  color: #fff;
+`;
+
+export const NextIcon = styled.i`
+  color: #fff;
 `;

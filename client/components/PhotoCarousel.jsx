@@ -8,6 +8,8 @@ import {
   CarouselLeftDiv,
   CarouselRightDiv,
   ImageContainer,
+  BackIcon,
+  NextIcon,
 } from '../styles';
 
 const formatCommas = (num) => {
@@ -163,7 +165,7 @@ class PhotoCarousel extends React.Component {
         <CarouselContainer>
           <CarouselLeftDiv>
             <CarouselButton style={{ display: beginScroll ? 'none' : 'flex' }} onClick={this.scrollLeft}>
-              <i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i>
+              <BackIcon className="material-icons md-36">arrow_back_ios</BackIcon>
             </CarouselButton>
           </CarouselLeftDiv>
           <ImageContainer id="carousel">
@@ -177,7 +179,7 @@ class PhotoCarousel extends React.Component {
           </ImageContainer>
           <CarouselRightDiv>
             <CarouselButton onClick={this.scrollRight}>
-              <i className="material-icons md-36 icon-light">{endScroll ? 'replay' : 'arrow_forward_ios'}</i>
+              <NextIcon className="material-icons md-36">{endScroll ? 'replay' : 'arrow_forward_ios'}</NextIcon>
             </CarouselButton>
           </CarouselRightDiv>
         </CarouselContainer>
