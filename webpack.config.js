@@ -2,7 +2,8 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
+  // devtool: 'eval-source-map',
+  // mode: 'development',
   entry: './client/index.jsx',
   output: {
     filename: 'bundle.js',
@@ -28,5 +29,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      'styled-components': path.resolve(__dirname, 'node_modules', 'styled-components'),
+    },
   },
+  externals: {
+    'styled-components': true,
+  }
 };
