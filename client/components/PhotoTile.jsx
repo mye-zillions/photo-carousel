@@ -10,7 +10,6 @@ const PhotoTile = ({ openModal, id, link, height, width }) => (
       width,
     }}
   >
-    {/* <img src={link} alt="property" /> */}
   </Tile>
 );
 

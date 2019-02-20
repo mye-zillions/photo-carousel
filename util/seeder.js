@@ -102,7 +102,7 @@ mysql.createConnection({
               });
               for (let j = 0; j < numImages; j += 1) {
                 photos.push({
-                  url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/${j ? 'sample' : 'large'}${i + 1}.jpg`,
+                  url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/${j ? 'sample' : 'large'}${j + 1}.jpg`,
                   property_id: i + 1,
                 });
               }
