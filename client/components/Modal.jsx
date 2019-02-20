@@ -10,7 +10,10 @@ import { ModalContainer,
   GalleryActionItem,
   ItemDiv,
   GalleryButton,
-  ModalButton,
+  ModalLeftButton,
+  ModalRightButton,
+  BackIcon,
+  NextIcon,
 } from '../styles';
 
 class Modal extends React.Component {
@@ -60,7 +63,7 @@ class Modal extends React.Component {
             </GalleryActionItem>
           </ModalGalleryActions>
         </ModalBar>
-        <ModalButton className="back" onClick={() => { btnBack(id) }}><i className="material-icons md-36 icon-light back-icon">arrow_back_ios</i></ModalButton>
+        <ModalLeftButton className="back" onClick={() => { btnBack(id) }}><BackIcon className="material-icons md-36">arrow_back_ios</BackIcon></ModalLeftButton>
         <Content>
           <ModalCounter>
             {id + 1}
@@ -69,7 +72,7 @@ class Modal extends React.Component {
           </ModalCounter>
           <img src={link} alt="fullsize version" />
         </Content>
-        <ModalButton className="forward" onClick={() => { btnNext(id) }}><i className="material-icons md-36 icon-light">arrow_forward_ios</i></ModalButton>
+        <ModalRightButton className="forward" onClick={() => { btnNext(id) }}><NextIcon className="material-icons md-36">arrow_forward_ios</NextIcon></ModalRightButton>
         <ModalFooter>
           <PropertyDetails>
             {'For Sale: $'}
