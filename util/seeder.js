@@ -5,6 +5,8 @@ const { mysqlUser, mysqlPass } = require('../config');
 
 
 mysql.createConnection({
+  host: '192.168.99.100',
+  port: '3306',
   user: mysqlUser,
   password: mysqlPass,
 })
@@ -15,6 +17,8 @@ mysql.createConnection({
   .then(() => {
     const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
       dialect: 'mysql',
+      host: '192.168.99.100',
+      port: '3306',
       logging: () => {},
     });
 

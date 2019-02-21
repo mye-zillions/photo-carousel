@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const { mysqlUser, mysqlPass } = require('../../config');
 
 const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
+  host: '172.17.0.2',
   dialect: 'mysql',
 });
 

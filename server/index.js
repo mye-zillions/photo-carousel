@@ -3,7 +3,7 @@ const express = require('express');
 const db = require('./database');
 
 const app = express();
-const port = 3333;
+const port = 80;
 
 app.use(morgan('dev'));
 app.use(express.static('public'));
