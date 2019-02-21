@@ -1,12 +1,21 @@
+const path = require('path');
 const morgan = require('morgan');
 const express = require('express');
+const { renderFile } = require('ejs');
 const db = require('./database');
+const { servicePort } = require('../config.js');
 
 const app = express();
-const port = 80;
 
 app.use(morgan('dev'));
 app.use(express.static('public'));
+app.engine('html', renderFile);
+app.set('view engine', 'html');
+app.set('views', path.join(__dirname, '..', 'public'));
+
+app.get('/:propertyId', (req, res) => {
+  res.render('index.html', { id: req.params.propertyId });
+});
 
 app.get('/api/:propertyId/basicdetails', (req, res) => {
   // TODO: Query property database here and return property's basic details
@@ -36,4 +45,4 @@ app.get('/api/photos/:propertyId', (req, res) => {
     });
 });
 
-app.listen(port);
+app.listen(servicePort);
