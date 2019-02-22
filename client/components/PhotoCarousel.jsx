@@ -49,12 +49,12 @@ class PhotoCarousel extends React.Component {
 
   componentDidMount() {
     const { id } = this.props;
-    fetch(`/api/photos/${id}`) // $SERVER_URL
+    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/photos/${id}`) // $SERVER_URL
       .then(response => response.json())
       .then(links => links.map(({ url }) => url))
       .then(thumbnails => this.setState({ thumbnails }));
 
-    fetch(`/api/${id}/basicdetails`)
+    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/basicdetails/${id}`)
       .then(response => response.json())
       .then(([basicDetails]) => {
         const details = basicDetails;
@@ -94,6 +94,7 @@ class PhotoCarousel extends React.Component {
         setTimeout(animateScroll, increment);
       } else {
         this.setState({
+          beginScroll: (carousel.scrollLeft) ? false : true,
           endScroll: false,
         });
       }

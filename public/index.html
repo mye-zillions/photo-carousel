@@ -16,7 +16,7 @@
 <script src="dist/bundle.js"></script>
 <script>
   ReactDOM.render(
-    React.createElement(PhotoCarousel, {id: "<%= id %>"}, null),
+    React.createElement(PhotoCarousel, {id: window.location.pathname.slice(1)}, null),
     document.getElementById('app')
   );
 </script>
