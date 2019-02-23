@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
-    "start-production": "node server/index.js",
+    "start-production": "npm run seed && node server/index.js",
     "build": "webpack -d --watch",
     "build-production": "webpack",
     "generate-images": "node util/generator.js",
@@ -21,6 +21,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-cli": "^6.26.0",
     "babel-loader": "^8.0.5",
+    "compression": "^1.7.3",
     "css-loader": "^2.1.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",

@@ -17,8 +17,8 @@ mysql.createConnection({
   .then(() => {
     const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
       dialect: 'mysql',
-      host: '192.168.99.100',
-      port: '3306',
+      host: mysqlHost,
+      port: mysqlPort,
       logging: () => {},
     });
 

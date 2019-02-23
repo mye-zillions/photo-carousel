@@ -1,11 +1,14 @@
 const morgan = require('morgan');
 const express = require('express');
+const compression = require('compression');
 const db = require('./database');
 const { servicePort } = require('../config.js');
 
 const app = express();
 
 app.use(morgan('dev'));
+app.use(compression());
+app.use('/dist', express.static('public/dist'));
 app.use('/:propertyId', express.static('public'));
 
 app.get('/api/basicdetails/:propertyId', (req, res) => {
