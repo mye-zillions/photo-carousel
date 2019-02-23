@@ -23,7 +23,19 @@ app.get('/api/basicdetails/:propertyId', (req, res) => {
     });
 });
 
-app.get('/api/photos/:propertyId', (req, res) => {
+app.get('/api/thumb/photos/:propertyId', (req, res) => {
+  const propertyId = Number(req.params.propertyId);
+  db.getPhotos(propertyId)
+    .then((links) => {
+      res.set('Access-Control-Allow-Origin', '*');
+      res.status(200).send(links);
+    })
+    .catch((error) => {
+      res.status(418).send(error);
+    });
+});
+
+app.get('/api/full/photos/:propertyId', (req, res) => {
   const propertyId = Number(req.params.propertyId);
   db.getPhotos(propertyId)
     .then((links) => {
