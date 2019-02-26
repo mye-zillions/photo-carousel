@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
-const { mysqlUser, mysqlPass } = require('../../config');
+const { mysqlUser, mysqlPass, mysqlHost, mysqlPort } = require('../../config');
 
 const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
+  host: mysqlHost,
+  port: mysqlPort,
   dialect: 'mysql',
 });
 

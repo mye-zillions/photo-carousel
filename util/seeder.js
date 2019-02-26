@@ -1,10 +1,12 @@
 const mysql = require('mysql2/promise');
 const Sequelize = require('sequelize');
 const faker = require('faker');
-const { mysqlUser, mysqlPass } = require('../config');
+const { mysqlUser, mysqlPass, mysqlHost, mysqlPort } = require('../config');
 
 
 mysql.createConnection({
+  host: mysqlHost,
+  port: mysqlPort,
   user: mysqlUser,
   password: mysqlPass,
 })
@@ -15,6 +17,8 @@ mysql.createConnection({
   .then(() => {
     const sequelize = new Sequelize('xillow', mysqlUser, mysqlPass, {
       dialect: 'mysql',
+      host: mysqlHost,
+      port: mysqlPort,
       logging: () => {},
     });
 
@@ -101,8 +105,9 @@ mysql.createConnection({
                 max: 50,
               });
               for (let j = 0; j < numImages; j += 1) {
+                const imgId = Math.floor(Math.random() * 100) + 1;
                 photos.push({
-                  url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/${j ? 'sample' : 'large'}${j + 1}.jpg`,
+                  url: `https://s3-us-west-1.amazonaws.com/xillow-talk-photos/property_photos/${j ? 'sample' : 'large'}${imgId}.jpg`,
                   property_id: i + 1,
                 });
               }
