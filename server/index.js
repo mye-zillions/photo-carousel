@@ -1,16 +1,17 @@
 const morgan = require('morgan');
 const express = require('express');
+const compression = require('compression');
 const db = require('./database');
+const { servicePort } = require('../config.js');
 
 const app = express();
-const port = 3333;
 
 app.use(morgan('dev'));
-app.use(express.static('public'));
+app.use(compression());
+app.use('/dist', express.static('public/dist'));
+app.use('/:propertyId', express.static('public'));
 
-app.get('/api/:propertyId/basicdetails', (req, res) => {
-  // TODO: Query property database here and return property's basic details
-  // propertyId stored in req.params.propertyId
+app.get('/api/basicdetails/:propertyId', (req, res) => {
   const propertyId = Number(req.params.propertyId);
   db.getDetails(propertyId)
     .then((details) => {
@@ -22,9 +23,7 @@ app.get('/api/:propertyId/basicdetails', (req, res) => {
     });
 });
 
-app.get('/api/photos/:propertyId', (req, res) => {
-  // TODO: Query photo database here and return all links pertaining to property
-  // propertyId stored in req.params.propertyId
+app.get('/api/thumb/photos/:propertyId', (req, res) => {
   const propertyId = Number(req.params.propertyId);
   db.getPhotos(propertyId)
     .then((links) => {
@@ -36,4 +35,16 @@ app.get('/api/photos/:propertyId', (req, res) => {
     });
 });
 
-app.listen(port);
+app.get('/api/full/photos/:propertyId', (req, res) => {
+  const propertyId = Number(req.params.propertyId);
+  db.getPhotos(propertyId)
+    .then((links) => {
+      res.set('Access-Control-Allow-Origin', '*');
+      res.status(200).send(links);
+    })
+    .catch((error) => {
+      res.status(418).send(error);
+    });
+});
+
+app.listen(servicePort);
