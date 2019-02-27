@@ -2,12 +2,13 @@ const morgan = require('morgan');
 const express = require('express');
 const compression = require('compression');
 const db = require('./database');
-const { servicePort } = require('../config.js');
+const { port } = require('../config.js');
 
 const app = express();
 
 app.use(morgan('dev'));
 app.use(compression());
+app.use(express.static('public'));
 app.use('/dist', express.static('public/dist'));
 app.use('/:propertyId', express.static('public'));
 
@@ -47,4 +48,18 @@ app.get('/api/full/photos/:propertyId', (req, res) => {
     });
 });
 
-app.listen(servicePort);
+//==================
+// BEGIN SDC ROUTES
+//==================
+
+var { getRoute, postRoute, putRoute, deleteRoute} = require('./controller');
+
+app.get('/api/')
+
+//==================
+// END SDC ROUTES
+//==================
+
+app.listen(port, () => {
+  console.log(`Express listening at port ${port}`);
+});
