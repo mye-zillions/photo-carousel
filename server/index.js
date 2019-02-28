@@ -52,9 +52,14 @@ app.get('/api/full/photos/:propertyId', (req, res) => {
 // BEGIN SDC ROUTES
 //==================
 
-var { getRoute, postRoute, putRoute, deleteRoute} = require('./controller');
+var { postRoute, putRoute, deleteRoute } = require('./controller');
+var parser = require('body-parser');
 
-app.get('/api/')
+app.post('/api/basicdetails/', parser.json(), postRoute);
+
+app.put('/api/basicdetails/:propertyId', parser.json(), putRoute);
+
+app.delete('/api/basicdetails/:propertyId', deleteRoute);
 
 //==================
 // END SDC ROUTES

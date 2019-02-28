@@ -64,4 +64,21 @@ const getPhotos = id => Photo.findAll({
   },
 });
 
-module.exports = { getDetails, getPhotos };
+// added SDC routes
+const postDetails = details => Property.create(details);
+
+const editProperty = (id, details) => Property.update({ 
+  name: details.name,
+  price: details.price,
+  bed_count: details.bed_count,
+  bath_count: details.bath_count,
+  sq_ft: details.sq_ft,
+  }, { 
+  where: { id },
+});
+
+const deleteProperty = id => Property.destroy({
+  where: { id },
+});
+
+module.exports = { getDetails, getPhotos, postDetails, editProperty, deleteProperty };
