@@ -88,10 +88,6 @@ var pgHandler = async () => {
 
 		await bulkCopy(client, done);
 	});
-
-	// for (let i = 0; i < 1e6; i++) {
-	// 	await insertProperties(pool);		
-	// }
 };
 
 module.exports = { pgHandler, getDetails, getPhotos };

@@ -32,8 +32,3 @@ var download = async (i) => {
 		writer.on('error', reject);
 	});
 };
-
-// for (let i = 0; i < 1000; i++) {
-// 	download(i)
-// 		.catch(err => console.error(err));
-// }
