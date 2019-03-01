@@ -49,17 +49,17 @@ class PhotoCarousel extends React.Component {
 
   componentDidMount() {
     const { id } = this.props;
-    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/thumb/photos/${id}`) // $SERVER_URL
+    fetch(`/api/thumb/photos/${id}`) // $SERVER_URL
       .then(response => response.json())
       .then(links => links.map(({ url }) => url))
       .then(thumbnails => this.setState({ thumbnails }));
 
-    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/full/photos/${id}`) // $SERVER_URL
+    fetch(`/api/full/photos/${id}`) // $SERVER_URL
       .then(response => response.json())
       .then(links => links.map(({ url }) => url))
       .then(fulls => this.setState({ fulls }));
 
-    fetch(`http://ec2-13-59-200-193.us-east-2.compute.amazonaws.com/api/basicdetails/${id}`)
+    fetch(`/api/basicdetails/${id}`)
       .then(response => response.json())
       .then(([basicDetails]) => {
         const details = basicDetails;
