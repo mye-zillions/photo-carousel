@@ -13,7 +13,8 @@
     "build": "webpack -d --watch",
     "build-production": "webpack",
     "generate-images": "node util/generator.js",
-    "seed": "node util/seeder.js"
+    "seed": "node util/seeder.js",
+    "adapt": "node util/adapter.js; aws s3 cp ./img/ s3://xillow-photos/ --recursive"
   },
   "dependencies": {
     "@babel/core": "^7.2.2",
@@ -28,6 +29,7 @@
     "faker": "^4.1.0",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.4",
+    "pg": "^7.8.1",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "sequelize": "^4.42.0",
@@ -35,6 +37,7 @@
     "webpack": "^4.29.3"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "eslint": "^5.13.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",

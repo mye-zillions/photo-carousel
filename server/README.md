@@ -98,7 +98,7 @@
 
 * **URL**
 
-  - `/api/details/`
+  - `/api/details`
 
 * **Method:**
   
@@ -132,7 +132,7 @@
 
 * **URL**
 
-  - `/api/photos/:propertyId/:url`
+  - `/api/photos/:propertyId`
 
 * **Method:**
   
