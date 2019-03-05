@@ -12,7 +12,7 @@ writeToCsv(volume) // CAUTION WITH STREAM VOLUME
 	.then(() => {
 		console.log('TIME ELAPSED:', new Date() - tracker);
 		// postgres adapter
-		pgHandler();
+		// pgHandler();
 	})
 	.catch(err => console.error(err))
 
