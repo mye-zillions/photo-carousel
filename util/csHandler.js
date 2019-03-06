@@ -118,3 +118,18 @@ module.exports = { getDetails, getPhotos, createProperty, updateProperty, delete
 // );
 // COPY properties (id, name, price, bed_count, bath_count, sq_ft) FROM 'C:\Users\alpha\Desktop\System Design Capstone\photo-carousel\properties.csv' WITH HEADER = FALSE;
 // COPY photos (id, property_id, url) FROM 'C:\Users\alpha\Desktop\System Design Capstone\photo-carousel\photos.csv' WITH HEADER = FALSE;
+
+// CREATE TABLE xillow.properties_with_photos (
+//   id int PRIMARY KEY,
+//   bath_count int,
+//   bed_count int,
+//   name text,
+//   photos set<int>,
+//   price int,
+//   sq_ft int
+// );
+// INSERT INTO properties_with_photos (id, bath_count, bed_count, name, photos, price, sq_ft)
+// VALUES (1, 1, 1, 'Here And Now', {5, 6, 7, 8}, 1, 1);
+// COPY properties_with_photos (id,name,price,bed_count,bath_count,sq_ft,photos) 
+// FROM 'C:\Users\alpha\Desktop\System Design Capstone\photo-carousel\properties_with_photos.csv'  
+// WITH HEADER = TRUE AND DELIMITER = '|';

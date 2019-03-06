@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 var writeToCsv = require('./csvWriter.js');
-var { pgHandler } = require('./pgHandler.js');	
+// var { pgHandler } = require('./pgHandler.js');	
 
 // generate data and write to csv
 var volume = 1e7;

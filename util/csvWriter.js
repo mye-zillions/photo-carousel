@@ -1,43 +1,25 @@
 const path = require('path');
 const fs = require('fs');
 const faker = require('faker');
-const csv = require('fast-csv');
 
 const PHOTO_CHUNK_SIZE = 20;
 
 var generatePhoto = (property_id, photo_id) => {
-	var rounded_photo_id = (PHOTO_CHUNK_SIZE * property_id + photo_id) % 1000;
-	return {
-		photo_id: PHOTO_CHUNK_SIZE * property_id + photo_id, 
-		property_id: property_id,
-		url: `https://s3.amazonaws.com/xillow-photos/${rounded_photo_id}.jpg`,
-	};
+	return (PHOTO_CHUNK_SIZE * property_id + photo_id) % 1000;
 };
 
 var generateDetail = (property_id) => {
 	return {
 		id: property_id,
 	  name: faker.address.streetAddress(),
-	  price: faker.random.number({
-	    min: 500000,
-	    max: 30000000,
-	  }),
-	  bed_count: faker.random.number({
-	    min: 2,
-	    max: 30,
-	  }),
-	  bath_count: faker.random.number({
-	    min: 1,
-	    max: 7,
-	  }),
-	  sq_ft: faker.random.number({
-	    min: 1000,
-	    max: 30000,
-	  }),
+	  price: ~~(Math.random() * (30000000 - 500000) + 500000),
+	  bed_count: ~~(Math.random() * (30 - 2) + 2),
+	  bath_count: ~~(Math.random() * (7 - 1) + 1),
+	  sq_ft: ~~(Math.random() * (30000 - 1000) + 1000),
 	};	
 };
 
-var toCsv = obj => Object.keys(obj).map(key => obj[key]).join(',').concat('\n');
+var toCsv = obj => Object.keys(obj).map(key => obj[key]).join('|');
 
 var streamToPromise = (stream, chunk) => {
 	return new Promise((resolve, reject) => {
@@ -48,28 +30,29 @@ var streamToPromise = (stream, chunk) => {
 };
 
 const writeToCsv = async (num = 1) => {
-	var propertiesStream = fs.createWriteStream('properties.csv', { flags: 'w' }),
-			photosStream = fs.createWriteStream('photos.csv', { flags: 'w' });
+	var writeStream = fs.createWriteStream('properties_with_photos.csv', { flags: 'w' });
 
 	return new Promise((resolve, reject) => {
-		propertiesStream.on('finish', () => {
+		writeStream.on('finish', () => {
 			console.log(`WROTE ${num} RECORDS!`);
 			resolve();
 		});
 
-		propertiesStream.on('error', (err) => {
+		writeStream.on('error', (err) => {
 			reject(err);
 		});
 
 		(async () => {
+			await streamToPromise(writeStream, 'id|name|price|bed_count|bath_count|sq_ft|photos\n');
 			for (let id = 0; id < num; id++) {
+				var line = '', url_id = [];
 				if (id % 1e5 === 0) console.log(`BATCH ${~~(id / 1e5)} DONE`);
-				await streamToPromise(propertiesStream, toCsv(generateDetail(id)));	
 				for (let photo_id = 0; photo_id < PHOTO_CHUNK_SIZE; photo_id++) {
-					await streamToPromise(photosStream, toCsv(generatePhoto(id, photo_id)));				
+					url_id.push(generatePhoto(id, photo_id));				
 				}
+				await streamToPromise(writeStream, toCsv(generateDetail(id)).concat('|{', url_id.join(','), '}\n'));	
 			}
-			propertiesStream.end();
+			writeStream.end();
 		})();
 
 	});
