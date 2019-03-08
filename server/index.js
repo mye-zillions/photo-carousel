@@ -1,3 +1,5 @@
+require('newrelic');
+
 const morgan = require('morgan');
 const express = require('express');
 const compression = require('compression');

@@ -27,7 +27,8 @@ coverage
 build/
 dist/
 
-# API keys
+# Keys
+keys/
 aws-config.js
 
 # Randomly generated images

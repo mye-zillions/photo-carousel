@@ -3,6 +3,7 @@ const copyFrom = require('pg-copy-streams').from;
 const path = require('path');
 const fs = require('fs');
 const { Pool } = require('pg');
+const pool = new Pool(pgConfig);
 
 var makeSchema = async (user) => {
 	await user.query(`
@@ -47,58 +48,70 @@ var bulkCopy = async (user, done) => {
 };
 
 var query = async (query) => {
-	const pool = new Pool(pgConfig);
-
-	await pool.connect();
-	// var begin = Date.now();
-
 	return new Promise((resolve, reject) => {
-		pool.query(query, (err, res) => {
-			// console.log(Date.now() - begin);
-			if (err) reject(err);
-			else resolve(res.rows);
-		});
-	});	
+		console.log('CURRENT POOL:', pool.totalCount, pool.idleCount, pool.waitingCount)
+		pool.query(query)
+			.then(res => resolve(res.rows))
+			.catch(err => reject(err))
+	});
 };
 
 var getDetails = async (id) => {
 	console.log(`READ PROPERTY ${id}`);
-	var res = await query(`SELECT * FROM properties WHERE id = ${id};`);
-	return res;
+	return new Promise((resolve, reject) => {
+		query(`SELECT * FROM properties WHERE id = ${id};`)
+		.then(res => resolve(res[0]))
+		.catch(err => reject(err))
+	});
 };
 
 var getPhotos = async (id) => {
 	console.log(`READ PHOTOS ${id}`);
-	var res = await query(`SELECT * FROM photos WHERE property_id = ${id};`);
-	return res;
+	return new Promise((resolve, reject) => {
+		query(`SELECT * FROM photos WHERE property_id = ${id};`)
+		.then(res => resolve(res))
+		.catch(err => reject(err))
+	});
 };
 
 var createProperty = async (obj) => {
 	console.log(`CREATE PROPERTY ${obj.id}`, obj);
-	var res = await query(`
-		INSERT INTO properties 
-		(id, bath_count, bed_count, name, price, sq_ft) 
-		VALUES (${obj.id}, ${obj.bath_count}, ${obj.bed_count}, '${obj.name}', ${obj.price}, ${obj.sq_ft})
-		ON CONFLICT DO NOTHING;
-	`);
-	return res;
+	return new Promise((resolve, reject) => {
+		query(`
+			INSERT INTO properties_${~~(obj.id / 1e6)} 
+			(id, bath_count, bed_count, name, price, sq_ft) 
+			VALUES (${obj.id}, ${obj.bath_count}, ${obj.bed_count}, '${obj.name}', ${obj.price}, ${obj.sq_ft})
+			ON CONFLICT (id) 
+			DO UPDATE
+			SET (bath_count, bed_count, name, price, sq_ft) =
+			(${obj.bath_count}, ${obj.bed_count}, '${obj.name}', ${obj.price}, ${obj.sq_ft});
+		`)
+		.then(res => resolve(res[0]))
+		.catch(err => reject(err))
+	});
 };
 
 var updateProperty = async (obj) => {
 	console.log(`UPDATE PROPERTY ${obj.id}`);
-	var res = await query(`
-		UPDATE properties
-		SET (bath_count, bed_count, name, price, sq_ft) =
-		(${obj.bath_count}, ${obj.bed_count}, '${obj.name}', ${obj.price}, ${obj.sq_ft})
-		WHERE id = ${obj.id};
-	`);
-	return res;
+	return new Promise((resolve, reject) => {
+		query(`
+			UPDATE properties
+			SET (bath_count, bed_count, name, price, sq_ft) =
+			(${obj.bath_count}, ${obj.bed_count}, '${obj.name}', ${obj.price}, ${obj.sq_ft})
+			WHERE id = ${obj.id};
+		`)
+		.then(res => resolve(res[0]))
+		.catch(err => reject(err))
+	});
 };
 
 var deleteProperty = async (id) => {
 	console.log(`DELETE PROPERTY ${id}`);
-	var res = await query(`DELETE FROM properties WHERE id = ${id};`);
-	return res;
+	return new Promise((resolve, reject) => {
+		query(`DELETE FROM properties WHERE id = ${id};`)
+		.then(res => resolve(res[0]))
+		.catch(err => reject(err))
+	});
 };
 
 var pgHandler = async () => {

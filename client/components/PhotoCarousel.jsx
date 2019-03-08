@@ -52,7 +52,9 @@ class PhotoCarousel extends React.Component {
     fetch(`/api/photo/${id}`) // $SERVER_URL
       .then(response => response.json())
       .then(links => links.map(({ url }) => url))
-      .then(thumbnails => this.setState({ thumbnails }));
+      .then(thumbnails => {
+        this.setState({ thumbnails, fulls: thumbnails })
+      });
 
     fetch(`/api/property/${id}`)
       .then(response => response.json())
