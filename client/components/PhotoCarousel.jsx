@@ -63,7 +63,7 @@ class PhotoCarousel extends React.Component {
       fulls: photo_urls 
     });
 
-    fetch(`http://localhost:3333/api/property/${id}`)
+    fetch(`/api/property/${id}`)
       .then(response => response.json())
       .then(([basicDetails]) => {
         const details = basicDetails;
