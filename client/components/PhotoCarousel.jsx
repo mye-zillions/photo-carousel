@@ -49,14 +49,21 @@ class PhotoCarousel extends React.Component {
 
   componentDidMount() {
     const { id } = this.props;
-    fetch(`/api/photo/${id}`) // $SERVER_URL
-      .then(response => response.json())
-      .then(links => links.map(({ url }) => url))
-      .then(thumbnails => {
-        this.setState({ thumbnails, fulls: thumbnails })
-      });
+    const PHOTO_CHUNK_SIZE = 20;
+    const photo_urls = [];
+    const property_id = +(/(\d+)\//.exec(id))[1];
 
-    fetch(`/api/property/${id}`)
+    for (let i = 0; i < PHOTO_CHUNK_SIZE; i++) {
+      let photo_id = (PHOTO_CHUNK_SIZE * property_id + i) % 1000;
+      photo_urls.push(`https://s3.amazonaws.com/xillow-photos/${photo_id}.jpg`);
+    }
+
+    this.setState({ 
+      thumbnails: photo_urls, 
+      fulls: photo_urls 
+    });
+
+    fetch(`http://localhost:3333/api/property/${id}`)
       .then(response => response.json())
       .then(([basicDetails]) => {
         const details = basicDetails;

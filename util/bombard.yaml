@@ -8,25 +8,25 @@ config:
   processor: "./artilleryAmmo.js"
 
 scenarios:
-  - name: "Add a property"
-    flow:
-      - function: "generateAmmo"
-      - post:
-          url: "/api/property"
-          json:
-            id: "{{ id }}"
-            name: "{{ name }}"
-            price: "{{ price }}"
-            bed_count: "{{ bed_count }}"
-            bath_count: "{{ bath_count }}"
-            sq_ft: "{{ sq_ft }}"
-      - log: "house {{ id }} '{{ name }}' sold for {{ price }}"
-  # - name: "Get a property"
+  # - name: "Add a property"
   #   flow:
-  #     - function: "generateId"
-  #     - get:
-  #         url: "/api/property/{{ randomId }}"
-  #     - log: "get house {{ randomId }}"
+  #     - function: "generateAmmo"
+  #     - post:
+  #         url: "/api/property"
+  #         json:
+  #           id: "{{ id }}"
+  #           name: "{{ name }}"
+  #           price: "{{ price }}"
+  #           bed_count: "{{ bed_count }}"
+  #           bath_count: "{{ bath_count }}"
+  #           sq_ft: "{{ sq_ft }}"
+  #     - log: "house {{ id }} '{{ name }}' sold for {{ price }}"
+  - name: "Get a property"
+    flow:
+      - function: "generateId"
+      - get:
+          url: "/api/property/{{ randomId }}"
+      - log: "get house {{ randomId }}"
   # - name: "Get photos"
   #   flow:
   #     - function: "generateId"

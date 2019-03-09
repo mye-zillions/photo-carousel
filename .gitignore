@@ -31,8 +31,9 @@ dist/
 keys/
 aws-config.js
 
-# Randomly generated images
+# Randomly generated files
 images/
+aftermath.txt
 
 # Config files
 config.js
