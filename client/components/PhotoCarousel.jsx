@@ -63,15 +63,18 @@ class PhotoCarousel extends React.Component {
       fulls: photo_urls 
     });
 
+	console.log('EDIT MADE');
     fetch(`/api/property/${id}`)
       .then(response => response.json())
-      .then(([basicDetails]) => {
+      .then((basicDetails) => {
+	console.log('DETAILS:', basicDetails);
         const details = basicDetails;
         details.price = formatCommas(details.price);
         details.sq_ft = formatCommas(details.sq_ft);
         return details;
       })
-      .then(basicDetails => this.setState({ basicDetails }));
+      .then(basicDetails => this.setState({ basicDetails }))
+	.catch(err => console.error(err))
   }
 
   openModal(id) {
