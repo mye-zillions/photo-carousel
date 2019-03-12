@@ -5,14 +5,14 @@ elif [ $1 = "db" ]
 then
 	echo "ENTERING EC2 DATABASE"
 	psql \
-		-h "ec2-13-57-228-85.us-west-1.compute.amazonaws.com" \
+		-h "ec2-52-52-124-211.us-west-1.compute.amazonaws.com" \
 		-p 5432 \
 		-U power_user \
 		-d xillow
 elif [ $1 = "server" ]
 then
 	echo "ENTERING EC2 SERVER INSTANCE"
-	sudo ssh -i "keys/postgres.pem" ec2-user@ec2-13-57-228-85.us-west-1.compute.amazonaws.com
+	sudo ssh -i "keys/postgres.pem" ec2-user@ec2-52-52-124-211.us-west-1.compute.amazonaws.com
 elif [ $1 = "slave" ]
 then
 	echo "ENTERING EC2 SLAVE INSTANCE"
